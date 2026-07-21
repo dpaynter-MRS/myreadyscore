@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "broad-resonance-119a",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-07-21",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "myreadyscoredb",
+      "database_id": "ca6cdf05-58a4-45b7-9893-975005c79625"
+    }
+  ],
+  "vars": {
+    "BREVO_LIST_ID": "",
+    "BREVO_SENDER_NAME": "My Ready Score"
+  }
+}

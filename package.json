@@ -1,0 +1,15 @@
+{
+  "name": "myreadyscore-cloudflare",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "db:local": "wrangler d1 execute myreadyscoredb --local --file=database/schema.sql",
+    "db:remote": "wrangler d1 execute myreadyscoredb --remote --file=database/schema.sql",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
