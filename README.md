@@ -160,3 +160,4 @@ D1 is the source of truth. If Brevo is temporarily unavailable, the lead still s
 - Design: `public/css/styles.css`
 - Lead API: `src/worker.js`
 - Cloudflare configuration: `wrangler.jsonc`
+- GitHub deployment configured.
