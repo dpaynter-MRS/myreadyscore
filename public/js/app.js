@@ -19,7 +19,6 @@ $('start-quiz').addEventListener('click',()=>{intro.classList.add('hidden');quiz
 $('exit-quiz').addEventListener('click',()=>{quiz.classList.add('hidden');intro.classList.remove('hidden');document.querySelector('#assessment').scrollIntoView({behavior:'smooth'});});
 $('back-button').addEventListener('click',()=>{if(current>0){current--;renderQuestion(true);}});
 $('next-button').addEventListener('click',()=>{if(answers[questions[current].id]===undefined)return;if(current<questions.length-1){current++;renderQuestion(true);}else showResults();});
-$('retake-button').addEventListener('click',()=>{Object.keys(answers).forEach(k=>delete answers[k]);current=0;results.classList.add('hidden');intro.classList.remove('hidden');document.querySelector('#assessment').scrollIntoView({behavior:'smooth'});});
 
 function renderQuestion(shouldScroll=false){
  const q=questions[current],pct=Math.round(((current+1)/questions.length)*100);
