@@ -189,13 +189,23 @@
           </div>
         </section>
 
+        <section class="recommendations-cta" aria-labelledby="recommendations-cta-title">
+          <div class="recommendations-cta-icon" aria-hidden="true">↓</div>
+          <div class="recommendations-cta-copy">
+            <p class="eyebrow">Your personalized next steps</p>
+            <h2 id="recommendations-cta-title">Products that address your preparedness gaps are below.</h2>
+            <p>We matched recommendations to the areas where your answers show the greatest opportunity to improve.</p>
+          </div>
+          <a class="button button-primary button-large recommendations-cta-button" href="#recommended-products">See My Recommended Products <span aria-hidden="true">↓</span></a>
+        </section>
+
         <section class="results-dashboard">
           <div class="breakdown-panel result-panel">
             <div class="panel-heading"><div><p class="eyebrow">Your score by category</p><h2>Your readiness breakdown</h2></div><span class="panel-icon">◎</span></div>
             <div id="category-results" class="category-results"></div>
           </div>
 
-          <aside class="recommendations-panel result-panel">
+          <aside id="recommended-products" class="recommendations-panel result-panel">
             <div class="panel-heading"><div><p class="eyebrow">Personalized recommendations</p><h2>Your highest-impact improvements</h2></div><span class="panel-icon">↗</span></div>
             <p class="section-intro">Your first recommendation is matched to your lowest-scoring area.</p>
             <div id="recommendations" class="product-grid"></div>
