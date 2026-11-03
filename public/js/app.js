@@ -10,6 +10,18 @@ const questions = [
   {id:'food',icon:'🥫',label:'Emergency Food',question:'Do you have several days of shelf-stable food that fits your household’s dietary needs?',help:'Include a manual can opener, water needs, medications, infant needs, and pet food where applicable.',actions:'Build a practical shelf-stable emergency food reserve.',options:[['Yes, rotated and organized',100,'We have enough and regularly check dates.'],['Some food',55,'We have food, but not enough or not organized.'],['No reserve',0,'We do not keep a dedicated emergency food supply.']]}
 ];
 
+const rileyPrompts = [
+  'Let’s start with one of the essentials: emergency water.',
+  'Next, let’s make sure your most important records are protected and accessible.',
+  'Reliable alerts give your family time to act. Let’s see what you have in place.',
+  'A well-stocked first aid kit can make a big difference while help is on the way.',
+  'Emergency information should be easy for every family member to access.',
+  'A dependable multipurpose tool can solve a surprising number of small problems.',
+  'Cell service can become unreliable. Let’s look at your backup communication plan.',
+  'Keeping essential devices charged helps your family stay informed and connected.',
+  'Last one—let’s check whether your food reserve can support your household.'
+];
+
 let current=0; const answers={}; let latestResult=null;
 const $=id=>document.getElementById(id);
 const intro=$('quiz-intro'),quiz=$('quiz'),results=$('results');
@@ -23,6 +35,7 @@ $('next-button').addEventListener('click',()=>{if(answers[questions[current].id]
 function renderQuestion(shouldScroll=false){
  const q=questions[current],pct=Math.round(((current+1)/questions.length)*100);
  $('question-count').textContent=`Question ${current+1} of ${questions.length}`;$('progress-percent').textContent=`${pct}%`;$('progress-bar').style.width=`${pct}%`;
+ $('riley-question-prompt').textContent=rileyPrompts[current];
  $('question-icon').textContent=q.icon;$('question-category').textContent=q.label;$('question-text').textContent=q.question;$('question-help').textContent=q.help;
  $('back-button').style.visibility=current===0?'hidden':'visible';$('next-button').textContent=current===questions.length-1?'See My Ready Score':'Next';
  const box=$('answer-options');box.innerHTML='';
@@ -49,7 +62,13 @@ function showResults(){
  latestResult={score,weakestCategory:weakest?.label||'',answers:{...answers}};
  $('score-value').textContent=score;
  let heading,summary;if(score>=85){heading='Strongly Prepared';summary='Your household has many important foundations in place. Focus on testing, maintenance, and the few remaining gaps.';}else if(score>=65){heading='A Solid Start';summary='You have meaningful preparation in place, with several practical opportunities to strengthen your household.';}else if(score>=40){heading='Building Readiness';summary='You have started, but several essential areas would benefit from attention. Prioritize the lowest-scoring categories first.';}else{heading='Start With the Essentials';summary='Your results reveal important opportunities to protect your household. Begin with a few manageable basics rather than trying to do everything at once.';}
- $('score-heading').textContent=heading;$('score-tier').textContent=heading;$('score-summary').textContent=summary;$('result-score-ring').style.setProperty('--result-score',score);
+ let rileyMessage;
+ if(score===100){rileyMessage='100—outstanding work! Your essentials are in strong shape. Review the plan below to keep everything current and tested.';}
+ else if(score>=85){rileyMessage=`${score} is an excellent score! I found a few focused recommendations that can help close your remaining gaps.`;}
+ else if(score>=65){rileyMessage=`${score} is a great start! See the products I matched to your preparedness gaps to help move your score closer to 100.`;}
+ else if(score>=40){rileyMessage=`${score} gives us a clear starting point. I’ve prioritized products for the areas where they can make the biggest difference.`;}
+ else{rileyMessage=`${score} is your starting point—and every improvement counts. Begin with the first recommendation and build from there.`;}
+ $('score-heading').textContent=heading;$('score-tier').textContent=heading;$('score-summary').textContent=summary;$('riley-results-message').textContent=rileyMessage;$('result-score-ring').style.setProperty('--result-score',score);
  renderCategories();renderActions();renderRecommendations();results.scrollIntoView({behavior:'smooth',block:'start'});
 }
 function renderCategories(){const box=$('category-results');box.innerHTML='';questions.forEach(q=>{const value=answers[q.id]??0;const row=document.createElement('div');row.className='category-row';row.innerHTML=`<div class="category-top"><span>${q.icon} ${q.label}</span><span>${value}/100</span></div><div class="category-meter"><span style="width:${value}%"></span></div>`;box.appendChild(row);});}

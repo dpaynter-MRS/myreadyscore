@@ -158,7 +158,8 @@
         </div>
         <div class="start-card reveal reveal-delay">
           <div class="start-card-top"><span>Ready when you are</span><span>~3 min</span></div>
-          <div class="start-icon">✓</div>
+          <div class="riley-avatar riley-avatar-large" aria-hidden="true"><img src="images/riley-and-scout.png" alt=""></div>
+          <div class="riley-welcome"><strong>Hi, I’m Riley.</strong><span>I’ll walk you through all 9 questions, then show you the most useful next steps for your family.</span></div>
           <h3>Get your family’s Ready Score</h3>
           <p>9 practical questions. Immediate results.</p>
           <button id="start-quiz" class="button button-accent button-full" type="button">Start My Assessment <span>→</span></button>
@@ -181,6 +182,10 @@
             <p id="question-category" class="question-category"></p>
             <h2 id="question-text"></h2>
             <p id="question-help" class="question-help"></p>
+            <div class="quiz-guide" role="status">
+              <div class="riley-avatar" aria-hidden="true"><img src="images/riley-and-scout.png" alt=""></div>
+              <p><strong>Riley’s tip</strong><span id="riley-question-prompt">Let’s start with one of the essentials: emergency water.</span></p>
+            </div>
             <div id="answer-options" class="answer-options"></div>
           </div>
           <div class="quiz-nav">
@@ -196,6 +201,10 @@
             <p class="eyebrow light">Your personalized results</p>
             <h2 id="score-heading">Your Family Ready Score</h2>
             <p id="score-summary"></p>
+            <div class="results-guide-message">
+              <div class="riley-avatar" aria-hidden="true"><img src="images/riley-and-scout.png" alt=""></div>
+              <p><strong>Riley’s next step</strong><span id="riley-results-message"></span></p>
+            </div>
             <div class="results-meta"><span>✓ 9 areas analyzed</span><span>✓ Priorities identified</span></div>
             <a class="button button-accent results-primary-cta" href="#recommended-products">See My Recommended Products <span aria-hidden="true">↓</span></a>
           </div>
