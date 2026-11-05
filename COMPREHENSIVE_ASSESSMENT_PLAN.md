@@ -2,7 +2,7 @@
 
 ## Phase 1 — implemented
 
-- Preserve the existing nine-question Quick Ready Score and lead funnel.
+- Use a branching 10-question Quick Ready Score: household setting first, followed by nine urban, suburban, or rural questions connected to the approved product catalog.
 - Keep the comprehensive assessment free during validation and unlock it immediately after email capture.
 - Use a 93-question adaptive bank across 12 equal-weight readiness categories; each household receives 70 or more applicable checks based on household members, equipment, pets, and setting.
 - Begin with a non-scored household-setting profile: urban/apartment, suburban/small town, or rural/remote; then tailor additional questions and report priorities around shelter and evacuation needs.

@@ -198,7 +198,7 @@ const STORAGE_KEY='mrs:comprehensive:v1';
 const state={answers:{},index:0,started:false,assessmentVersion:ASSESSMENT_VERSION,scoringVersion:SCORING_VERSION};
 const $=id=>document.getElementById(id);
 let lead=null;
-try{lead=JSON.parse(localStorage.getItem('myReadyScoreLead')||'null');Object.assign(state,JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}'));}catch(_){ }
+try{lead=JSON.parse(localStorage.getItem('myReadyScoreLead')||'null');Object.assign(state,JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}'));if(!state.answers.household_setting){state.answers.household_setting=lead?.setting||localStorage.getItem('myReadyScoreSetting')||undefined;}}catch(_){ }
 if(lead?.firstName)$('welcome-name').textContent=`Welcome, ${lead.firstName}.`;
 const categoryMap=Object.fromEntries([...CATEGORIES,PROFILE_CATEGORY].map(c=>[c[0],c]));
 
