@@ -57,8 +57,10 @@ const PATH_PRODUCTS={
   ],
   suburban:[
     {icon:'🚗',title:'Vehicle Emergency Kit',description:'Core roadside and emergency supplies for evacuation or travel disruption.',url:'https://link.amazon/B0eIgTdXB'},
+    {icon:'🎒',title:'Compact Go-Bag Backpack',description:'A portable core kit for rapid departure, household pickup, or reunification away from home.',url:'https://link.amazon/B0cB9ERFe'},
     {icon:'💧',title:'Stackable Water-Storage Containers',description:'Organized household water storage that uses garage or utility-room space efficiently.',url:'https://link.amazon/B04kdNgXf'},
     {icon:'⚡',title:'Portable Power Station',description:'Backup energy for essential small devices during a longer neighborhood outage.',url:'https://link.amazon/B0dEij9Oo'},
+    {icon:'🔋',title:'High-Capacity Phone Power Bank',description:'Portable backup charging for alerts, navigation, and household reunification.',url:'https://link.amazon/B04Y8tIFF'},
     {icon:'📻',title:'NOAA Emergency Radio',description:'An independent channel for official weather and emergency information.',url:'https://link.amazon/B07E7Cio5'}
   ],
   rural:[
