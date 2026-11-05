@@ -48,6 +48,27 @@ const SETTING_GUIDANCE={
   'Suburban / small town':{key:'suburban',title:'Suburban and small-town readiness',summary:'Your plan balances home-based resilience with vehicle evacuation, regional congestion, and neighborhood coordination.',priorities:['Maintain both shelter and vehicle-based evacuation capability.','Plan alternate routes that avoid major traffic corridors.','Coordinate with nearby households during longer outages.']},
   'Rural / remote':{key:'rural',title:'Rural and remote readiness',summary:'Your plan emphasizes longer self-reliance, communications and access while preserving evacuation capability for fast-moving local hazards.',priorities:['Prepare for delayed services and longer utility interruptions.','Protect backup water, power, heat, and communications.','Keep an evacuation plan for wildfire, flood, blocked access, or medical needs.']}
 };
+const PATH_PRODUCTS={
+  urban:[
+    {icon:'🎒',title:'Compact Go-Bag Backpack',description:'A portable bag for essential evacuation supplies when storage and carrying capacity are limited.',url:'https://link.amazon/B0cB9ERFe'},
+    {icon:'💧',title:'Collapsible Filtered Water Bottle',description:'A space-conscious water option for walking, transit, or compact emergency storage.',url:'https://link.amazon/B0fhuHvfE'},
+    {icon:'🔋',title:'High-Capacity Phone Power Bank',description:'Backup charging for essential communication, navigation, and alerts.',url:'https://link.amazon/B04Y8tIFF'},
+    {icon:'📻',title:'Compact NOAA Emergency Radio',description:'Battery and hand-crank access to official alerts when normal power or data service is unavailable.',url:'https://link.amazon/B07E7Cio5'}
+  ],
+  suburban:[
+    {icon:'🚗',title:'Vehicle Emergency Kit',description:'Core roadside and emergency supplies for evacuation or travel disruption.',url:'https://link.amazon/B0eIgTdXB'},
+    {icon:'💧',title:'Stackable Water-Storage Containers',description:'Organized household water storage that uses garage or utility-room space efficiently.',url:'https://link.amazon/B04kdNgXf'},
+    {icon:'⚡',title:'Portable Power Station',description:'Backup energy for essential small devices during a longer neighborhood outage.',url:'https://link.amazon/B0dEij9Oo'},
+    {icon:'📻',title:'NOAA Emergency Radio',description:'An independent channel for official weather and emergency information.',url:'https://link.amazon/B07E7Cio5'}
+  ],
+  rural:[
+    {icon:'📡',title:'Long-Range Emergency Radio',description:'Weather and emergency reception suited to areas with weaker coverage or greater distance from services.',url:'https://link.amazon/B08fML1qN'},
+    {icon:'🚰',title:'Larger-Capacity Water Filtration System',description:'Higher-volume water treatment for longer periods of self-reliance.',url:'https://link.amazon/B0fWennmD'},
+    {icon:'💧',title:'Stackable Water-Storage Containers',description:'Expandable stored-water capacity for households relying on wells or private systems.',url:'https://link.amazon/B04kdNgXf'},
+    {icon:'🛰️',title:'Satellite Communicator',description:'A communication alternative for weak cellular coverage and remote travel.',url:'https://link.amazon/B04bdDyjB'},
+    {icon:'⚡',title:'High-Capacity Portable Power Station',description:'Backup energy for essential devices during longer rural outages.',url:'https://link.amazon/B0dEij9Oo'}
+  ]
+};
 const SOURCES=[
   {agency:'FEMA / Ready.gov',title:'Are You Ready? An In-Depth Guide to Citizen Preparedness',url:'https://www.ready.gov/sites/default/files/2021-11/are-you-ready-guide.pdf',categories:['plan','water','food','power','evac','docs']},
   {agency:'CDC',title:'Personal Needs — Prepare Your Health',url:'https://www.cdc.gov/prepare-your-health/take-action/personal-needs.html',categories:['water','food','medical','children']},
@@ -241,6 +262,9 @@ function showReport(){
   const gaps=applicable().filter(q=>q.scored&&state.answers[q.id]!==UNKNOWN_ANSWER&&scoreFor(q)<70).map(q=>({...q,score:scoreFor(q),priority:(100-scoreFor(q))*q.risk*priorityBoost(q)})).sort((a,b)=>b.priority-a.priority);
   const groups=[['verify','Verify first','These answers are unknown. Check them before relying on the related system.'],['today','Fix first','Safety-critical or quick actions to begin now.'],['month','Build this month','Important systems to complete over the next few weeks.'],['later','Strengthen next','Useful resilience improvements after the essentials.']];
   $('roadmap-groups').innerHTML=groups.map(([key,title,description])=>{const rows=(key==='verify'?unknowns:gaps.filter(g=>g.time===key)).slice(0,key==='today'?8:10);if(!rows.length)return'';return `<div class="roadmap-group"><h3>${title}</h3><p>${description}</p><div class="roadmap-list">${rows.map(g=>`<article class="roadmap-item ${key==='verify'?'verify-item':''}"><span>${categoryMap[g.category][1]} ${categoryMap[g.category][2]} · ${key==='verify'?'Unverified':`Current ${g.score}/100`}</span><h4>${key==='verify'?`Verify: ${g.prompt}`:g.action}</h4><p>${key==='verify'?'Confirm what is currently in place, then update this assessment.':g.prompt}</p></article>`).join('')}</div></div>`;}).join('');
+  const settingProducts=PATH_PRODUCTS[setting.key]||[];
+  $('context-products-title').textContent=`Optional equipment for ${setting.title.toLowerCase()}`;
+  $('context-products').innerHTML=settingProducts.map((product,index)=>`<article class="context-product-card"><span class="context-product-icon">${product.icon}</span><div><small>Optional tool ${index+1}</small><h3>${product.title}</h3><p>${product.description}</p></div><a class="button button-primary" href="${product.url}" target="_blank" rel="nofollow sponsored noopener noreferrer" aria-label="View ${product.title} on Amazon">View on Amazon</a></article>`).join('');
   const wins=applicable().filter(q=>q.scored&&state.answers[q.id]!==UNKNOWN_ANSWER&&scoreFor(q)>=70).sort((a,b)=>scoreFor(b)-scoreFor(a)).slice(0,6);
   $('readiness-wins').innerHTML=wins.length?wins.map(w=>`<article class="win-card"><strong>✓ ${categoryMap[w.category][2]}</strong><span>${w.prompt}</span></article>`).join(''):'<p>Completing the first few roadmap actions will create your first readiness wins.</p>';
   $('evidence-sources').innerHTML=SOURCES.map(source=>`<a class="evidence-card" href="${source.url}" target="_blank" rel="noopener noreferrer"><span>${source.agency}</span><strong>${source.title}</strong><small>Covers: ${source.categories.map(code=>categoryMap[code][2]).join(', ')}</small></a>`).join('');
