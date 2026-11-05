@@ -20,10 +20,34 @@ const CATEGORIES=[
   ['children','🧸','Children & Dependents','Age-appropriate plans and continuity for people who rely on you.'],
   ['pets','🐾','Pets & Animals','Identification, supplies, transport, shelter, and care instructions.']
 ];
-const ASSESSMENT_VERSION='1.1.0';
+const ASSESSMENT_VERSION='1.2.0';
 const SCORING_VERSION='2.0.0';
 const CONTENT_REVIEW_DATE='2026-11-05';
 const UNKNOWN_ANSWER='Not sure';
+const PROFILE_CATEGORY=['profile','⌂','Household Setting','A few details that tailor the assessment without affecting the core score.'];
+const SETTING_OPTIONS=[
+  ['Urban / apartment',100,'Dense neighborhood, apartment, condo, high-rise, or limited private storage.'],
+  ['Suburban / small town',100,'Residential area with vehicle access and moderate proximity to services or a city.'],
+  ['Rural / remote',100,'Lower-density area, longer travel times, or greater reliance on private systems.']
+];
+const RESPONSE_OPTIONS=[
+  ['Be ready for either',100,'Prepare to shelter safely or leave when conditions require it.'],
+  ['Shelter at home first',100,'Home-based readiness is the priority, with a basic evacuation fallback.'],
+  ['Evacuate quickly first',100,'Rapid departure is the priority, with basic shelter capability.'],
+  ['Not sure yet',100,'The report will help identify a balanced starting point.']
+];
+const DISRUPTION_OPTIONS=[
+  ['Severe storms or extended outage',100,'Wind, ice, snow, heat, cold, or prolonged utility loss.'],
+  ['Wildfire, flooding, or another evacuation hazard',100,'A hazard that could require leaving with limited notice.'],
+  ['Earthquake or infrastructure disruption',100,'Damage to roads, utilities, communications, or buildings.'],
+  ['Industrial incident or civil disruption',100,'A nearby release, transportation incident, or dense-area disruption.'],
+  ['I want an all-hazards plan',100,'Build broad capability without selecting one primary disruption.']
+];
+const SETTING_GUIDANCE={
+  'Urban / apartment':{key:'urban',title:'Urban and apartment readiness',summary:'Your plan balances compact shelter supplies with the ability to leave on foot, by transit, or through a congested urban area.',priorities:['Keep critical supplies compact and portable.','Plan for stairs, building access, and elevator outages.','Choose destinations and routes beyond the immediate city center.']},
+  'Suburban / small town':{key:'suburban',title:'Suburban and small-town readiness',summary:'Your plan balances home-based resilience with vehicle evacuation, regional congestion, and neighborhood coordination.',priorities:['Maintain both shelter and vehicle-based evacuation capability.','Plan alternate routes that avoid major traffic corridors.','Coordinate with nearby households during longer outages.']},
+  'Rural / remote':{key:'rural',title:'Rural and remote readiness',summary:'Your plan emphasizes longer self-reliance, communications and access while preserving evacuation capability for fast-moving local hazards.',priorities:['Prepare for delayed services and longer utility interruptions.','Protect backup water, power, heat, and communications.','Keep an evacuation plan for wildfire, flood, blocked access, or medical needs.']}
+};
 const SOURCES=[
   {agency:'FEMA / Ready.gov',title:'Are You Ready? An In-Depth Guide to Citizen Preparedness',url:'https://www.ready.gov/sites/default/files/2021-11/are-you-ready-guide.pdf',categories:['plan','water','food','power','evac','docs']},
   {agency:'CDC',title:'Personal Needs — Prepare Your Health',url:'https://www.cdc.gov/prepare-your-health/take-action/personal-needs.html',categories:['water','food','medical','children']},
@@ -39,6 +63,10 @@ function item(category,id,prompt,action,time='month',risk=2,extra={}){
   return {category,id,prompt,action,time,risk,help:extra.help||'Choose the answer that best reflects what your household could rely on today.',tip:extra.tip||'Honest answers create a more useful plan. “Not yet” is a starting point, not a failure.',options:extra.options||STANDARD_OPTIONS,scored:extra.scored!==false,when:extra.when};
 }
 const QUESTIONS=[
+  item('profile','household_setting','Which setting best describes where your household lives?','Choose the household setting that best fits.','today',1,{options:SETTING_OPTIONS,scored:false,help:'This changes examples and follow-up questions, not the value of your core readiness score.',tip:'Choose the setting that best reflects your daily constraints. You can update it later.'}),
+  item('profile','response_preference','What should your household plan be strongest at?','Choose a planning emphasis.','today',1,{options:RESPONSE_OPTIONS,scored:false,help:'Every household still receives both shelter and evacuation checks.',tip:'Most families benefit from being able to do either. This answer only changes emphasis.'}),
+  item('profile','primary_disruption','Which type of disruption feels most relevant to your household?','Choose a primary planning context.','today',1,{options:DISRUPTION_OPTIONS,scored:false,help:'This helps Riley frame priorities. Current local official instructions always take precedence.',tip:'If several apply, choose an all-hazards plan for balanced guidance.'}),
+
   item('plan','meeting_places','Has your household chosen both a nearby meeting place and an out-of-area meeting place?','Choose and share two household meeting places.','today',3),
   item('plan','out_contact','Does everyone know an out-of-area contact who can relay messages?','Name an out-of-area contact and add them to every phone and wallet card.','today',3),
   item('plan','paper_contacts','Are essential contacts available on paper if phones are unavailable?','Print compact emergency contact cards for each household member.','today',3),
@@ -121,7 +149,28 @@ const QUESTIONS=[
   item('pets','pet_supplies','Is there a portable supply of food, water, medication, sanitation items, and comfort items?','Build a portable emergency supply kit for each animal.','month',3,{when:a=>a.pets_gate==='Yes'}),
   item('pets','pet_transport','Are carriers, leashes, or transport equipment accessible and correctly sized?','Prepare and practice safe animal transport.','month',3,{when:a=>a.pets_gate==='Yes'}),
   item('pets','pet_shelter','Have you identified evacuation destinations that accept or safely accommodate animals?','Confirm two animal-friendly evacuation destinations.','month',3,{when:a=>a.pets_gate==='Yes'}),
-  item('pets','pet_caregiver','Could a backup caregiver access animals and follow written care instructions?','Arrange a backup animal caregiver and share written instructions.','later',2,{when:a=>a.pets_gate==='Yes'})
+  item('pets','pet_caregiver','Could a backup caregiver access animals and follow written care instructions?','Arrange a backup animal caregiver and share written instructions.','later',2,{when:a=>a.pets_gate==='Yes'}),
+
+  item('evac','urban_stairs','Could everyone leave the building safely if elevators were unavailable?','Create and practice an elevator-free building exit plan.','today',3,{when:a=>a.household_setting==='Urban / apartment'}),
+  item('evac','urban_no_vehicle','Could your household evacuate without relying on a personal vehicle?','Plan walking, transit, rideshare, and trusted-person evacuation alternatives.','today',3,{when:a=>a.household_setting==='Urban / apartment'}),
+  item('home','urban_storage','Are essential shelter supplies compact enough for your available storage?','Build a compact shelter supply system around the space you actually have.','month',2,{when:a=>a.household_setting==='Urban / apartment'}),
+  item('plan','urban_city_exit','Have you chosen a destination and route beyond the immediate urban area?','Choose an out-of-area destination and at least two ways to reach it.','month',3,{when:a=>a.household_setting==='Urban / apartment'}),
+  item('plan','urban_building_comms','Do you know how building management will share emergency instructions if internet service fails?','Confirm building alert, access, and emergency communication procedures.','month',2,{when:a=>a.household_setting==='Urban / apartment'}),
+  item('evac','urban_nearby_shelter','Have you identified nearby public shelter, cooling, warming, or reunification locations?','Locate and record nearby official support and shelter locations.','month',2,{when:a=>a.household_setting==='Urban / apartment'}),
+
+  item('evac','suburban_routes','Do you have evacuation routes that avoid the busiest regional traffic corridors?','Map alternate routes around major commuter and city traffic corridors.','today',3,{when:a=>a.household_setting==='Suburban / small town'}),
+  item('power','suburban_outage','Could your household remain safe through a multi-day neighborhood power outage?','Strengthen your multi-day home outage plan for essential power and temperature.','month',3,{when:a=>a.household_setting==='Suburban / small town'}),
+  item('plan','suburban_neighbors','Have nearby households discussed communication, welfare checks, or shared constraints?','Create a simple neighborhood check-in plan with willing neighbors.','month',2,{when:a=>a.household_setting==='Suburban / small town'}),
+  item('evac','suburban_vehicle','Is your vehicle plan realistic if fuel stations, school routes, or arterial roads are congested?','Set fuel, pickup, timing, and alternate-route rules for evacuation.','month',3,{when:a=>a.household_setting==='Suburban / small town'}),
+  item('plan','suburban_pickup','Is there a backup plan for school, childcare, work, or dependent pickup if normal routes close?','Assign backup pickup roles and reunification locations.','today',3,{when:a=>a.household_setting==='Suburban / small town'}),
+  item('alerts','suburban_comms','Can neighbors or household members communicate if cellular networks are overloaded?','Choose and test a local backup communication method.','month',2,{when:a=>a.household_setting==='Suburban / small town'}),
+
+  item('plan','rural_self_reliance','Could your household safely manage several days of delayed services or outside assistance?','Extend essential supplies and plans for delayed rural assistance.','today',3,{when:a=>a.household_setting==='Rural / remote'}),
+  item('alerts','rural_communications','Do you have a tested communication method where cellular coverage is weak or absent?','Add and test a communication option suited to local coverage gaps.','today',3,{when:a=>a.household_setting==='Rural / remote'}),
+  item('home','rural_systems','Are private systems such as wells, septic, propane, or access roads included in the outage plan?','Document backup procedures for the private systems your home relies on.','month',3,{when:a=>a.household_setting==='Rural / remote'}),
+  item('evac','rural_access','Can you leave if the primary road is blocked or a fast-moving hazard approaches?','Identify alternate access, early-departure triggers, and a remote-area destination.','today',3,{when:a=>a.household_setting==='Rural / remote'}),
+  item('medical','rural_medical','Is there a plan for urgent medical care when travel times are long or roads are impaired?','Document urgent-care routes, transport backups, and medical contacts.','today',3,{when:a=>a.household_setting==='Rural / remote'}),
+  item('power','rural_fuel','Are stored fuel and backup-energy supplies secured, rotated, and used according to safety guidance?','Review safe storage, rotation, ventilation, and operating rules for backup energy.','month',3,{when:a=>a.household_setting==='Rural / remote'})
 ];
 
 const STORAGE_KEY='mrs:comprehensive:v1';
@@ -130,7 +179,7 @@ const $=id=>document.getElementById(id);
 let lead=null;
 try{lead=JSON.parse(localStorage.getItem('myReadyScoreLead')||'null');Object.assign(state,JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}'));}catch(_){ }
 if(lead?.firstName)$('welcome-name').textContent=`Welcome, ${lead.firstName}.`;
-const categoryMap=Object.fromEntries(CATEGORIES.map(c=>[c[0],c]));
+const categoryMap=Object.fromEntries([...CATEGORIES,PROFILE_CATEGORY].map(c=>[c[0],c]));
 
 function applicable(){return QUESTIONS.filter(q=>!q.when||q.when(state.answers));}
 function answeredQuestions(){return applicable().filter(q=>state.answers[q.id]!==undefined);}
@@ -143,11 +192,23 @@ function categoryScore(code){const qs=knownQuestions(code);if(!qs.length)return 
 function overallScore(){const scores=CATEGORIES.map(c=>categoryScore(c[0])).filter(Number.isFinite);return scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):null;}
 function confidence(code){const all=scoredQuestions(code);return all.length?Math.round((knownQuestions(code).length/all.length)*100):null;}
 function progress(){const qs=applicable();return Math.round((answeredQuestions().length/qs.length)*100);}
+function priorityBoost(question){
+  let boost=1;
+  if(state.answers.response_preference==='Shelter at home first'&&['home','power','water','food','medical'].includes(question.category))boost+=.18;
+  if(state.answers.response_preference==='Evacuate quickly first'&&['evac','plan','alerts','docs'].includes(question.category))boost+=.18;
+  const disruption=state.answers.primary_disruption||'';
+  if(disruption.startsWith('Severe storms')&&['power','home','alerts'].includes(question.category))boost+=.12;
+  if(disruption.startsWith('Wildfire')&&['evac','alerts','plan'].includes(question.category))boost+=.15;
+  if(disruption.startsWith('Earthquake')&&['home','water','evac','power'].includes(question.category))boost+=.12;
+  if(disruption.startsWith('Industrial')&&['alerts','home','evac','plan'].includes(question.category))boost+=.12;
+  return boost;
+}
 
 function renderRail(){
   const p=progress();$('overall-bar').style.width=`${p}%`;$('overall-progress').textContent=`${p}% complete`;
   const current=applicable()[state.index];
-  $('category-nav').innerHTML=CATEGORIES.map(([code,icon,label])=>{const qs=applicable().filter(q=>q.category===code);const done=qs.length&&qs.every(q=>state.answers[q.id]!==undefined);return `<span class="category-nav-item ${current?.category===code?'active':''} ${done?'done':''}"><b>${done?'✓':icon}</b>${label}</span>`;}).join('');
+  const navCategories=[PROFILE_CATEGORY,...CATEGORIES];
+  $('category-nav').innerHTML=navCategories.map(([code,icon,label])=>{const qs=applicable().filter(q=>q.category===code);const done=qs.length&&qs.every(q=>state.answers[q.id]!==undefined);return `<span class="category-nav-item ${current?.category===code?'active':''} ${done?'done':''}"><b>${done?'✓':icon}</b>${label}</span>`;}).join('');
 }
 function renderQuestion(){
   const qs=applicable();if(state.index>=qs.length)state.index=qs.length-1;
@@ -169,9 +230,15 @@ function tier(score){if(!Number.isFinite(score))return['Verification needed','Th
 function showReport(){
   state.completedAt=new Date().toISOString();save();$('deep-assessment').classList.add('hidden');$('deep-intro').classList.add('hidden');$('deep-results').classList.remove('hidden');
   const score=overallScore(),reportConfidence=confidence(),[label,summary]=tier(score);$('deep-score').textContent=score??'—';$('deep-tier').textContent=label;$('report-summary').textContent=summary;$('report-title').textContent=lead?.firstName?`${lead.firstName}’s household roadmap`:'Your household roadmap';$('report-confidence').textContent=`Answer confidence: ${reportConfidence}% verified`;$('report-version').textContent=`Assessment ${ASSESSMENT_VERSION} · Scoring ${SCORING_VERSION}`;$('report-date').textContent=`Prepared ${new Intl.DateTimeFormat(undefined,{dateStyle:'long'}).format(new Date())} · Guidance reviewed ${new Intl.DateTimeFormat(undefined,{dateStyle:'medium'}).format(new Date(`${CONTENT_REVIEW_DATE}T12:00:00`))}`;
+  const setting=SETTING_GUIDANCE[state.answers.household_setting]||SETTING_GUIDANCE['Suburban / small town'];
+  const response=state.answers.response_preference||'Be ready for either';
+  const disruption=state.answers.primary_disruption||'I want an all-hazards plan';
+  $('context-title').textContent=setting.title;
+  $('context-summary').textContent=`${setting.summary} Your selected emphasis is “${response},” with “${disruption}” as the primary planning context.`;
+  $('context-priorities').innerHTML=setting.priorities.map((priority,index)=>`<article><span>0${index+1}</span><strong>${priority}</strong></article>`).join('');
   $('deep-category-results').innerHTML=CATEGORIES.map(([code,icon,name,desc])=>{const value=categoryScore(code),certainty=confidence(code);return `<article class="deep-category-card"><div class="deep-category-top"><span>${icon} ${name}</span><strong>${value??'Verify'}</strong></div><p>${desc}</p><div class="category-confidence">${certainty===null?'Not applicable':`${certainty}% verified`}</div><div class="deep-category-meter"><span style="width:${value??0}%"></span></div></article>`;}).join('');
   const unknowns=applicable().filter(q=>q.scored&&state.answers[q.id]===UNKNOWN_ANSWER).sort((a,b)=>b.risk-a.risk);
-  const gaps=applicable().filter(q=>q.scored&&state.answers[q.id]!==UNKNOWN_ANSWER&&scoreFor(q)<70).map(q=>({...q,score:scoreFor(q),priority:(100-scoreFor(q))*q.risk})).sort((a,b)=>b.priority-a.priority);
+  const gaps=applicable().filter(q=>q.scored&&state.answers[q.id]!==UNKNOWN_ANSWER&&scoreFor(q)<70).map(q=>({...q,score:scoreFor(q),priority:(100-scoreFor(q))*q.risk*priorityBoost(q)})).sort((a,b)=>b.priority-a.priority);
   const groups=[['verify','Verify first','These answers are unknown. Check them before relying on the related system.'],['today','Fix first','Safety-critical or quick actions to begin now.'],['month','Build this month','Important systems to complete over the next few weeks.'],['later','Strengthen next','Useful resilience improvements after the essentials.']];
   $('roadmap-groups').innerHTML=groups.map(([key,title,description])=>{const rows=(key==='verify'?unknowns:gaps.filter(g=>g.time===key)).slice(0,key==='today'?8:10);if(!rows.length)return'';return `<div class="roadmap-group"><h3>${title}</h3><p>${description}</p><div class="roadmap-list">${rows.map(g=>`<article class="roadmap-item ${key==='verify'?'verify-item':''}"><span>${categoryMap[g.category][1]} ${categoryMap[g.category][2]} · ${key==='verify'?'Unverified':`Current ${g.score}/100`}</span><h4>${key==='verify'?`Verify: ${g.prompt}`:g.action}</h4><p>${key==='verify'?'Confirm what is currently in place, then update this assessment.':g.prompt}</p></article>`).join('')}</div></div>`;}).join('');
   const wins=applicable().filter(q=>q.scored&&state.answers[q.id]!==UNKNOWN_ANSWER&&scoreFor(q)>=70).sort((a,b)=>scoreFor(b)-scoreFor(a)).slice(0,6);

@@ -4,7 +4,8 @@
 
 - Preserve the existing nine-question Quick Ready Score and lead funnel.
 - Keep the comprehensive assessment free during validation and unlock it immediately after email capture.
-- Cover 72 questions across 12 equal-weight readiness categories.
+- Use a 93-question adaptive bank across 12 equal-weight readiness categories; each household receives 70 or more applicable checks based on household members, equipment, pets, and setting.
+- Begin with a non-scored household-setting profile: urban/apartment, suburban/small town, or rural/remote; then tailor additional questions and report priorities around shelter and evacuation needs.
 - Skip non-applicable dependent, pet, and powered-medical-equipment questions.
 - Save progress and results in the browser so users can pause and resume.
 - Generate a personalized, prioritized roadmap and print-ready report.
@@ -20,6 +21,7 @@
 - Roadmap priority combines gap size with safety impact. Timing then groups actions into Fix first, Build this month, and Strengthen next.
 - Reports record assessment, scoring-method, and content-review versions.
 - Category-level evidence links point to reviewed FEMA/Ready.gov, CDC, NWS, USFA, and CISA guidance.
+- Household setting and response preference adjust question eligibility and roadmap order, but never inflate or reduce the universal core score by themselves.
 
 ## Phase 2 — recommended after funnel validation
 
