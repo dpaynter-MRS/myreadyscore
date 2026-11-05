@@ -10,12 +10,29 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://myreadyscore.com/">
   <meta name="theme-color" content="#082f2a">
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window,document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1827247638422116');
+  fbq('track', 'PageView');
+  </script>
+  <!-- End Meta Pixel Code -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1827247638422116&amp;ev=PageView&amp;noscript=1"
+    alt=""></noscript>
   <div class="page-glow page-glow-one"></div>
   <div class="page-glow page-glow-two"></div>
 
@@ -48,6 +65,12 @@
           <div><span class="proof-icon">✓</span><p><strong>About 3 minutes</strong><small>Simple questions</small></p></div>
           <div><span class="proof-icon">✓</span><p><strong>Personalized plan</strong><small>Based on your answers</small></p></div>
         </div>
+      </div>
+
+      <div class="hero-guide reveal reveal-delay-small" aria-label="Meet Riley and Scout, your preparedness guides">
+        <div class="hero-guide-halo" aria-hidden="true"></div>
+        <img src="images/riley-and-scout.png" alt="Riley, a firefighter-paramedic preparedness guide, with Scout" width="800" height="1200">
+        <div class="hero-guide-note"><strong>Hi, I’m Riley.</strong><span>I’ll guide you through nine practical questions.</span></div>
       </div>
 
       <div class="hero-visual reveal reveal-delay" aria-label="Example My Ready Score dashboard">
@@ -125,14 +148,10 @@
       </div>
     </section>
 
-    <section class="guide-section" aria-labelledby="guide-title">
-      <div class="guide-portrait reveal">
-        <div class="guide-halo" aria-hidden="true"></div>
-        <img src="images/riley-and-scout.png" alt="Riley, a firefighter-paramedic and preparedness guide, standing with her rescue dog Scout" width="800" height="1200" loading="lazy">
-      </div>
+    <section class="guide-section guide-section-compact" aria-labelledby="guide-title">
       <div class="guide-copy reveal reveal-delay">
         <p class="eyebrow">Meet your ready guides</p>
-        <h2 id="guide-title">Riley &amp; Scout make preparedness feel possible.</h2>
+        <h2 id="guide-title">Guidance built around calm, practical progress.</h2>
         <p class="guide-lede">Riley is a firefighter-paramedic and family preparedness educator. With Scout by her side, she helps households focus on practical next steps—not fear, pressure, or perfection.</p>
         <div class="guide-principles">
           <div><span aria-hidden="true">✓</span><p><strong>Calm over alarm</strong><small>Clear guidance without scare tactics.</small></p></div>
@@ -206,7 +225,7 @@
               <p><strong>Riley’s next step</strong><span id="riley-results-message"></span></p>
             </div>
             <div class="results-meta"><span>✓ 9 areas analyzed</span><span>✓ Priorities identified</span></div>
-            <a class="button button-accent results-primary-cta" href="#recommended-products">See My Recommended Products <span aria-hidden="true">↓</span></a>
+            <a class="button button-accent results-primary-cta" href="#priority-actions">See My Free Action Plan <span aria-hidden="true">↓</span></a>
           </div>
           <div class="results-score-card">
             <div id="result-score-ring" class="result-score-ring" style="--result-score:0">
@@ -216,12 +235,17 @@
           </div>
         </section>
 
+        <aside class="action-card results-actions">
+          <div class="action-intro"><p class="eyebrow light">Start here — no purchase required</p><h3>Your three highest-impact actions</h3><p>Complete the practical steps first. Products are optional tools, not the plan.</p></div>
+          <ol id="priority-actions"></ol>
+        </aside>
+
         <section class="recommendations-cta" aria-labelledby="recommendations-cta-title">
           <div class="recommendations-cta-icon" aria-hidden="true">↓</div>
           <div class="recommendations-cta-copy">
-            <p class="eyebrow">Your personalized next steps</p>
-            <h2 id="recommendations-cta-title">Products that address your preparedness gaps are below.</h2>
-            <p>We matched recommendations to the areas where your answers show the greatest opportunity to improve.</p>
+            <p class="eyebrow">Optional equipment</p>
+            <h2 id="recommendations-cta-title">Tools that may support your action plan.</h2>
+            <p>Review these only after the free planning, organizing, and practice steps above.</p>
           </div>
           <a class="button button-primary button-large recommendations-cta-button" href="#recommended-products">See My Recommended Products <span aria-hidden="true">↓</span></a>
         </section>
@@ -233,23 +257,18 @@
           </div>
 
           <aside id="recommended-products" class="recommendations-panel result-panel">
-            <div class="panel-heading"><div><p class="eyebrow">Personalized recommendations</p><h2>Your highest-impact improvements</h2></div><span class="panel-icon">↗</span></div>
-            <p class="section-intro">Your first recommendation is matched to your lowest-scoring area.</p>
+            <div class="panel-heading"><div><p class="eyebrow">Optional product recommendations</p><h2>Equipment for remaining gaps</h2></div><span class="panel-icon">↗</span></div>
+            <p class="section-intro">These products are optional and never influence your score or action priorities.</p>
             <div id="recommendations" class="product-grid"></div>
             <p class="affiliate-disclosure"><strong>Amazon affiliate disclosure:</strong> As an Amazon Associate, My Ready Score earns from qualifying purchases. Product availability and pricing may change.</p>
           </aside>
         </section>
 
-        <aside class="action-card results-actions">
-          <div class="action-intro"><p class="eyebrow light">Your action plan</p><h3>Start with these three steps</h3><p>Small, focused improvements can make a meaningful difference.</p></div>
-          <ol id="priority-actions"></ol>
-        </aside>
-
         <section class="comprehensive-unlock" aria-labelledby="unlock-title">
           <div class="unlock-copy">
             <p class="eyebrow">Go beyond the quick score</p>
             <h2 id="unlock-title">Serious about closing every readiness gap?</h2>
-            <p>Your Quick Ready Score covers the essentials. Join the early-access list for our comprehensive assessment, which will examine more areas of your household and build a deeper, personalized preparedness plan.</p>
+            <p>Your Quick Ready Score covers the essentials. Continue into the comprehensive assessment to examine more areas of your household and build a deeper, personalized preparedness plan.</p>
             <ul class="unlock-benefits">
               <li>70+ detailed preparedness questions</li>
               <li>12 household readiness categories</li>
@@ -258,7 +277,7 @@
             </ul>
           </div>
           <div class="unlock-form-card">
-            <p class="form-kicker">Save your score &amp; get early access</p>
+            <p class="form-kicker">Save your score &amp; unlock the full assessment</p>
             <form id="lead-form" novalidate>
               <div class="form-field">
                 <label for="first-name">First name</label>
@@ -278,8 +297,9 @@
             </form>
             <div id="lead-success" class="lead-success hidden">
               <div class="success-icon">✓</div>
-              <h3>You’re on the early-access list.</h3>
-              <p>We saved your Quick Ready Score and will email you when the comprehensive assessment is ready.</p>
+              <h3>Your comprehensive assessment is ready.</h3>
+              <p>We saved your Quick Ready Score. Continue now to build your detailed household roadmap and printable report.</p>
+              <a class="button button-accent button-full lead-continue" href="/comprehensive.html">Start the Comprehensive Assessment <span>→</span></a>
             </div>
           </div>
         </section>

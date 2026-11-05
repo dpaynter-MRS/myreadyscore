@@ -176,7 +176,7 @@ async function sendBrevoEmail(env, payload) {
 function welcomeEmailHtml(lead) {
   const name = escapeHtml(lead.firstName);
   const score = Number.isInteger(lead.quickScore) ? `${lead.quickScore}/100` : 'saved';
-  return `<!doctype html><html><body style="font-family:Arial,sans-serif;color:#173f38;line-height:1.6"><div style="max-width:600px;margin:auto;padding:28px"><h1 style="font-size:28px">Your Ready Score is saved</h1><p>Hi ${name},</p><p>Thanks for completing the My Ready Score Quick Assessment. Your current score is <strong>${score}</strong>.</p><p>You are now on the early-access list for our comprehensive family preparedness assessment. We will email you when it is ready.</p><p>Prepared, not panicked.</p><p>— The My Ready Score Team</p></div></body></html>`;
+  return `<!doctype html><html><body style="font-family:Arial,sans-serif;color:#173f38;line-height:1.6"><div style="max-width:600px;margin:auto;padding:28px"><h1 style="font-size:28px">Your Ready Score is saved</h1><p>Hi ${name},</p><p>Thanks for completing the My Ready Score Quick Assessment. Your current score is <strong>${score}</strong>.</p><p>Your comprehensive family preparedness assessment is now unlocked at <a href="https://myreadyscore.com/comprehensive.html">myreadyscore.com/comprehensive.html</a>.</p><p>Prepared, not panicked.</p><p>— The My Ready Score Team</p></div></body></html>`;
 }
 
 function addSecurityHeaders(response) {

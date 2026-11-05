@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comprehensive Family Readiness Assessment | My Ready Score</title>
+  <meta name="description" content="Build a detailed, personalized family preparedness roadmap across 12 readiness categories.">
+  <meta name="theme-color" content="#082f2a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/comprehensive.css">
+</head>
+<body class="deep-body">
+  <header class="deep-header">
+    <a class="brand" href="/" aria-label="My Ready Score home"><span class="brand-mark">✓</span><span class="brand-copy"><strong>My Ready Score</strong><small>Comprehensive assessment</small></span></a>
+    <span id="save-status" class="save-status">Saved on this device</span>
+  </header>
+
+  <main>
+    <section id="deep-intro" class="deep-intro">
+      <div>
+        <p class="eyebrow light">Your full household review</p>
+        <h1>Turn your Ready Score into a practical family plan.</h1>
+        <p>Riley will guide you through 12 areas of readiness. Your answers stay on this device and are used to build a prioritized, printable roadmap.</p>
+        <div class="deep-facts"><span>70+ detailed checks</span><span>About 12–15 minutes</span><span>Pause and resume anytime</span></div>
+        <button id="begin-deep" class="button button-accent button-large" type="button">Begin My Full Assessment <span>→</span></button>
+        <a class="deep-back" href="/">← Return to the Quick Ready Score</a>
+      </div>
+      <aside class="deep-preview">
+        <img src="images/riley-and-scout.png" alt="Riley and Scout, your preparedness guides">
+        <div><strong id="welcome-name">Welcome.</strong><span>We’ll focus on progress, not perfection.</span></div>
+      </aside>
+    </section>
+
+    <section id="deep-assessment" class="deep-assessment hidden" aria-live="polite">
+      <aside class="category-rail">
+        <p class="rail-kicker">Assessment progress</p>
+        <div class="overall-track"><span id="overall-bar"></span></div>
+        <strong id="overall-progress">0% complete</strong>
+        <nav id="category-nav" aria-label="Assessment categories"></nav>
+        <button id="save-exit" class="button button-ghost" type="button">Save &amp; exit</button>
+      </aside>
+      <div class="deep-question-wrap">
+        <div class="deep-question-meta"><span id="deep-category"></span><span id="deep-count"></span></div>
+        <div class="deep-riley"><img src="images/riley-and-scout.png" alt=""><p><strong>Riley’s guidance</strong><span id="deep-tip"></span></p></div>
+        <div id="deep-question-card" class="deep-question-card"></div>
+        <div class="deep-nav">
+          <button id="deep-back" class="button button-ghost" type="button">← Back</button>
+          <button id="deep-next" class="button button-accent" type="button" disabled>Next <span>→</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="deep-results" class="deep-results hidden">
+      <div class="report-toolbar"><a href="/" class="brand"><span class="brand-mark">✓</span><span class="brand-copy"><strong>My Ready Score</strong><small>Family readiness report</small></span></a><button id="print-report" class="button button-accent" type="button">Print / Save PDF</button></div>
+      <header class="report-hero">
+        <div><p class="eyebrow light">Comprehensive family readiness report</p><h1 id="report-title">Your household roadmap</h1><p id="report-summary"></p><div class="report-meta"><span id="report-confidence">Confidence: 0%</span><span id="report-version"></span></div><p class="report-date" id="report-date"></p></div>
+        <div class="report-score"><strong id="deep-score">0</strong><span>/100</span><small id="deep-tier"></small></div>
+      </header>
+      <section class="report-section"><div class="report-heading"><p class="eyebrow">12-category snapshot</p><h2>Where your household stands</h2></div><div id="deep-category-results" class="deep-category-results"></div></section>
+      <section class="roadmap report-section"><div class="report-heading"><p class="eyebrow">Personalized priorities</p><h2>Your improvement roadmap</h2><p>Ordered by safety impact, readiness gap, and effort.</p></div><div id="roadmap-groups"></div></section>
+      <section class="report-section wins-section"><div class="report-heading"><p class="eyebrow">Keep it going</p><h2>Your strongest readiness wins</h2></div><div id="readiness-wins"></div></section>
+      <section class="report-section evidence-section"><div class="report-heading"><p class="eyebrow">Evidence and transparency</p><h2>How this guidance was built</h2><p>Your score uses only confirmed readiness answers. “Not sure” answers lower the confidence level instead of lowering the readiness score. Guidance is educational and based on the official sources below; current local instructions always take precedence.</p></div><div id="evidence-sources" class="evidence-sources"></div></section>
+      <footer class="report-footer"><p>Educational guidance only. Adapt this plan to local hazards and advice from emergency, medical, utility, and public-safety authorities.</p><button id="retake-deep" class="text-button" type="button">Retake assessment</button></footer>
+    </section>
+  </main>
+  <script src="js/comprehensive.js"></script>
+</body>
+</html>

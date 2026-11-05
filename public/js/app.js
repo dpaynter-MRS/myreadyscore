@@ -25,9 +25,23 @@ const rileyPrompts = [
 let current=0; const answers={}; let latestResult=null;
 const $=id=>document.getElementById(id);
 const intro=$('quiz-intro'),quiz=$('quiz'),results=$('results');
+
+// Funnel events are recorded once per browser tab so rerenders, back/next
+// navigation, and repeated clicks do not inflate Meta reporting.
+const metaEventsSent=new Set();
+function trackMetaOnce(key,eventName,parameters={},standard=false){
+ const storageKey=`mrs:meta:${key}`;
+ if(metaEventsSent.has(key))return;
+ try{if(sessionStorage.getItem(storageKey))return;}catch(_){ }
+ if(typeof window.fbq!=='function')return;
+ window.fbq(standard?'track':'trackCustom',eventName,parameters);
+ metaEventsSent.add(key);
+ try{sessionStorage.setItem(storageKey,'1');}catch(_){ }
+}
+
 $('year').textContent=new Date().getFullYear();
 initReveal();
-$('start-quiz').addEventListener('click',()=>{intro.classList.add('hidden');quiz.classList.remove('hidden');renderQuestion(false);scrollToQuizTop('smooth');});
+$('start-quiz').addEventListener('click',()=>{trackMetaOnce('assessment-started','AssessmentStarted',{assessment_name:'Quick Ready Score',question_count:questions.length});intro.classList.add('hidden');quiz.classList.remove('hidden');renderQuestion(false);scrollToQuizTop('smooth');});
 $('exit-quiz').addEventListener('click',()=>{quiz.classList.add('hidden');intro.classList.remove('hidden');document.querySelector('#assessment').scrollIntoView({behavior:'smooth'});});
 $('back-button').addEventListener('click',()=>{if(current>0){current--;renderQuestion(true);}});
 $('next-button').addEventListener('click',()=>{if(answers[questions[current].id]===undefined)return;if(current<questions.length-1){current++;renderQuestion(true);}else showResults();});
@@ -60,6 +74,7 @@ function showResults(){
  const score=Math.round(questions.reduce((sum,q)=>sum+(answers[q.id]??0),0)/questions.length);
  const weakest=questions.slice().sort((a,b)=>(answers[a.id]??0)-(answers[b.id]??0))[0];
  latestResult={score,weakestCategory:weakest?.label||'',answers:{...answers}};
+ trackMetaOnce('assessment-completed','AssessmentCompleted',{assessment_name:'Quick Ready Score',score,weakest_category:latestResult.weakestCategory});
  $('score-value').textContent=score;
  let heading,summary;if(score>=85){heading='Strongly Prepared';summary='Your household has many important foundations in place. Focus on testing, maintenance, and the few remaining gaps.';}else if(score>=65){heading='A Solid Start';summary='You have meaningful preparation in place, with several practical opportunities to strengthen your household.';}else if(score>=40){heading='Building Readiness';summary='You have started, but several essential areas would benefit from attention. Prioritize the lowest-scoring categories first.';}else{heading='Start With the Essentials';summary='Your results reveal important opportunities to protect your household. Begin with a few manageable basics rather than trying to do everything at once.';}
  let rileyMessage;
@@ -102,7 +117,7 @@ function renderRecommendations(){
      ${priorityCopy}
      <p>${p.description}</p>
      <p class="why"><strong>Why you’re seeing this:</strong> Your ${q.label.toLowerCase()} score was ${answers[q.id]??0}/100.</p>
-     <a class="button button-primary" href="${p.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" aria-label="View ${p.title} on Amazon">${isFeatured?'View Recommended Product':'Check Price'}</a>`;
+     <a class="button button-primary" href="${p.link}" target="_blank" rel="nofollow sponsored noopener noreferrer" data-product-id="${q.id}" data-product-name="${p.title}" data-product-category="${q.label}" data-product-priority="${index+1}" aria-label="View ${p.title} on Amazon">${isFeatured?'View Recommended Product':'Check Price'}</a>`;
    box.appendChild(card);
  });
 }
@@ -113,6 +128,19 @@ function initReveal(){const items=document.querySelectorAll('.reveal');if(!('Int
 const leadForm=$('lead-form');
 if(leadForm){
   leadForm.addEventListener('submit',submitLead);
+}
+
+const recommendations=$('recommendations');
+if(recommendations){
+  recommendations.addEventListener('click',event=>{
+    const link=event.target.closest('a[data-product-id]');
+    if(!link)return;
+    trackMetaOnce(`product-click:${link.dataset.productId}`,'ProductRecommendationClick',{
+      content_name:link.dataset.productName,
+      content_category:link.dataset.productCategory,
+      recommendation_priority:Number(link.dataset.productPriority)
+    });
+  });
 }
 
 async function submitLead(event){
@@ -172,7 +200,8 @@ async function submitLead(event){
 
     form.classList.add('hidden');
     $('lead-success').classList.remove('hidden');
-    try{localStorage.setItem('myReadyScoreLead',JSON.stringify({id:data.id,email:cleanEmail,score:payload.quickScore}));}catch(_){ }
+    try{localStorage.setItem('myReadyScoreLead',JSON.stringify({id:data.id,email:cleanEmail,firstName:cleanName,score:payload.quickScore}));}catch(_){ }
+    trackMetaOnce('lead','Lead',{content_name:'Comprehensive Assessment Early Access',score:payload.quickScore},true);
     window.dispatchEvent(new CustomEvent('mrs:lead',{detail:{score:payload.quickScore,weakestCategory:payload.weakestCategory}}));
   }catch(error){
     showLeadMessage(error.message||'Something went wrong. Please try again.','error');
