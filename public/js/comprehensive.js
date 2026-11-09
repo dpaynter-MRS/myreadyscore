@@ -50,25 +50,25 @@ const SETTING_GUIDANCE={
 };
 const PATH_PRODUCTS={
   urban:[
-    {icon:'🎒',title:'Compact Go-Bag Backpack',description:'A portable bag for essential evacuation supplies when storage and carrying capacity are limited.',url:'https://link.amazon/B0cB9ERFe'},
-    {icon:'💧',title:'Collapsible Filtered Water Bottle',description:'A space-conscious water option for walking, transit, or compact emergency storage.',url:'https://link.amazon/B0fhuHvfE'},
-    {icon:'🔋',title:'High-Capacity Phone Power Bank',description:'Backup charging for essential communication, navigation, and alerts.',url:'https://link.amazon/B04Y8tIFF'},
-    {icon:'📻',title:'Compact NOAA Emergency Radio',description:'Battery and hand-crank access to official alerts when normal power or data service is unavailable.',url:'https://link.amazon/B07E7Cio5'}
+    {icon:'🎒',title:'Compact Go-Bag Backpack',description:'A portable bag for essential evacuation supplies when storage and carrying capacity are limited.',url:'https://link.amazon/B011PrlOM'},
+    {icon:'💧',title:'Collapsible Filtered Water Bottle',description:'A space-conscious water option for walking, transit, or compact emergency storage.',url:'https://link.amazon/B06Xvo1UB'},
+    {icon:'🔋',title:'High-Capacity Phone Power Bank',description:'Backup charging for essential communication, navigation, and alerts.',url:'https://link.amazon/B05mouoVg'},
+    {icon:'📻',title:'Compact NOAA Emergency Radio',description:'Battery and hand-crank access to official alerts when normal power or data service is unavailable.',url:'https://link.amazon/B04B6fKWj'}
   ],
   suburban:[
-    {icon:'🚗',title:'Vehicle Emergency Kit',description:'Core roadside and emergency supplies for evacuation or travel disruption.',url:'https://link.amazon/B0eIgTdXB'},
-    {icon:'🎒',title:'Compact Go-Bag Backpack',description:'A portable core kit for rapid departure, household pickup, or reunification away from home.',url:'https://link.amazon/B0cB9ERFe'},
-    {icon:'💧',title:'Stackable Water-Storage Containers',description:'Organized household water storage that uses garage or utility-room space efficiently.',url:'https://link.amazon/B04kdNgXf'},
-    {icon:'⚡',title:'Portable Power Station',description:'Backup energy for essential small devices during a longer neighborhood outage.',url:'https://link.amazon/B0dEij9Oo'},
-    {icon:'🔋',title:'High-Capacity Phone Power Bank',description:'Portable backup charging for alerts, navigation, and household reunification.',url:'https://link.amazon/B04Y8tIFF'},
-    {icon:'📻',title:'NOAA Emergency Radio',description:'An independent channel for official weather and emergency information.',url:'https://link.amazon/B07E7Cio5'}
+    {icon:'🚗',title:'Vehicle Emergency Kit',description:'Core roadside and emergency supplies for evacuation or travel disruption.',url:'https://link.amazon/B08rEu8As'},
+    {icon:'🎒',title:'Compact Go-Bag Backpack',description:'A portable core kit for rapid departure, household pickup, or reunification away from home.',url:'https://link.amazon/B02QtF8DM'},
+    {icon:'💧',title:'Stackable Water-Storage Containers',description:'Organized household water storage that uses garage or utility-room space efficiently.',url:'https://link.amazon/B0dYPM7qC'},
+    {icon:'⚡',title:'Portable Power Station',description:'Backup energy for essential small devices during a longer neighborhood outage.',url:'https://link.amazon/B0bPBx34s'},
+    {icon:'🔋',title:'High-Capacity Phone Power Bank',description:'Portable backup charging for alerts, navigation, and household reunification.',url:'https://link.amazon/B0d0ty3AM'},
+    {icon:'📻',title:'NOAA Emergency Radio',description:'An independent channel for official weather and emergency information.',url:'https://link.amazon/B07K1sJjk'}
   ],
   rural:[
-    {icon:'📡',title:'Long-Range Emergency Radio',description:'Weather and emergency reception suited to areas with weaker coverage or greater distance from services.',url:'https://link.amazon/B08fML1qN'},
-    {icon:'🚰',title:'Larger-Capacity Water Filtration System',description:'Higher-volume water treatment for longer periods of self-reliance.',url:'https://link.amazon/B0fWennmD'},
-    {icon:'💧',title:'Stackable Water-Storage Containers',description:'Expandable stored-water capacity for households relying on wells or private systems.',url:'https://link.amazon/B04kdNgXf'},
-    {icon:'🛰️',title:'Satellite Communicator',description:'A communication alternative for weak cellular coverage and remote travel.',url:'https://link.amazon/B04bdDyjB'},
-    {icon:'⚡',title:'High-Capacity Portable Power Station',description:'Backup energy for essential devices during longer rural outages.',url:'https://link.amazon/B0dEij9Oo'}
+    {icon:'📡',title:'Long-Range Emergency Radio',description:'Weather and emergency reception suited to areas with weaker coverage or greater distance from services.',url:'https://link.amazon/B0iNYsZYE'},
+    {icon:'🚰',title:'Larger-Capacity Water Filtration System',description:'Higher-volume water treatment for longer periods of self-reliance.',url:'https://link.amazon/B01T4E1aK'},
+    {icon:'💧',title:'Stackable Water-Storage Containers',description:'Expandable stored-water capacity for households relying on wells or private systems.',url:'https://link.amazon/B0h4haXdX'},
+    {icon:'🛰️',title:'Satellite Communicator',description:'A communication alternative for weak cellular coverage and remote travel.',url:'https://link.amazon/B04hvcyIm'},
+    {icon:'⚡',title:'High-Capacity Portable Power Station',description:'Backup energy for essential devices during longer rural outages.',url:'https://link.amazon/B056SgkXc'}
   ]
 };
 const SOURCES=[
